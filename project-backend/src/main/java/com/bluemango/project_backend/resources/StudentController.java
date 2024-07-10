@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -19,15 +20,18 @@ import com.bluemango.project_backend.models.Student;
 
 @RestController
 @CrossOrigin
-public class StudentContoller {
+public class StudentController {
 
-    List<Student> students = new ArrayList<>();
+    private List<Student> students = new ArrayList<>();
 
     @GetMapping("students")
     public List<Student> getStudents() {
         return students;
     }
-    @GetMapping("students/${ìd}")
+
+    
+ 
+    @GetMapping("students/{id}")
     public ResponseEntity<Student> getStudents(@PathVariable int id){
         Student student = students
         .stream()
@@ -37,7 +41,11 @@ public class StudentContoller {
 
         return ResponseEntity.ok(student); 
 
+
+        
     }
+            
+    
 
     @PostMapping("students")
     public ResponseEntity<Student> save(@RequestBody Student student){
@@ -54,6 +62,7 @@ public class StudentContoller {
         return ResponseEntity.created(location).body(student);
 
     }
+    
 
 
 

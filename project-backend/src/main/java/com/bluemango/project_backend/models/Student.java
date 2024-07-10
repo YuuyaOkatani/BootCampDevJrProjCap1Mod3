@@ -1,4 +1,4 @@
-package com.bluemango.project_backend.models;
+package com.bluemango.project_backend.models; 
 
 public class Student {
 

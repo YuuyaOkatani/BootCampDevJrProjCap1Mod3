@@ -1,4 +1,5 @@
 var alunos = [
+    /*
     {
         id: 1,
         nome: "Pedro antônio",
@@ -7,22 +8,18 @@ var alunos = [
         curso: 2,
         turno: 2
     }
+        */
 ]
 
 var cursos = [
-    { id: 1, name: "Java" },
-    { id: 2, name: "Angular" },
-    { id: 3, name: "SQL" }
+
 ]
 
 var turnos = [
-    { id: 1, name: "Manhã" },
-    { id: 2, name: "Tarde" },
-    { id: 3, name: "Noite" }
 ]
 
 
-loadProducts()
+
 
 function save() {
 
@@ -44,22 +41,78 @@ function save() {
         curso: document.getElementById("inputCurso").value,
         turno: turnoSet
     }
-    console.log(aluno.turno)
 
-    addNewRow(aluno)
-    alunos.push(aluno)
-    document.getElementById("formAlunos").reset()
-    console.log("Saving...");
+    console.log(document.getElementById("inputCurso").value)
+
+    
+
+    console.log(aluno.curso)
+
+    $.ajax({
+        url: 'http://localhost:8080/students',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(aluno),
+        success: student => {
+            addNewRow(student)
+            alunos.push(aluno);
+            document.getElementById('formAlunos').reset()
+        }
+    })
+  
 }
 
-function loadProducts() {
-    for (let aluno of alunos) {
-        addNewRow(aluno)
 
-    }
+function loadStudents() {
+
+    var url = 'http://localhost:8080/students'
+
+    $.getJSON(url, (students) => { //TODO arruma o array aluno
+        alunos = students
+        for (let student of alunos) {
+            addNewRow(student)
+        }
+    })
+
+
+ 
+}
+
+function loadPeriods(){
+    var UrlPeriod = 'http://localhost:8080/periods';
+    $.ajax({
+        url: UrlPeriod,
+        type: 'GET',
+        async: true,
+        success: periods =>  {
+            turnos = periods
+            console.log(turnos)
+        }
+    })
+
 }
 
 
+function loadCourses(){
+
+    var UrlCourses = 'http://localhost:8080/courses';
+
+    $.ajax({
+        url: UrlCourses,
+        type: 'GET',
+        async: true,
+        success: courses =>  {
+            cursos = courses
+            console.log(courses)
+            var cell = document.getElementById('inputCurso')
+
+            for(let curso of cursos){
+                cell.innerHTML += `<option value="${curso.id}">${curso.name}</option>`
+            }
+        }
+    })
+
+}
 
 function addNewRow(aluno) {
 

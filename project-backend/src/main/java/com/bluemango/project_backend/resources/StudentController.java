@@ -18,6 +18,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.bluemango.project_backend.models.Student;
 
+import jakarta.annotation.PostConstruct;
+
 @RestController
 @CrossOrigin
 public class StudentController {
@@ -61,6 +63,15 @@ public class StudentController {
 
         return ResponseEntity.created(location).body(student);
 
+    }
+
+    @PostConstruct
+    public void main(){
+        students.add(new Student(1, "Alice", "alice@example.com", "(11) 98765-4321", 1, 1));
+        students.add(new Student(2, "Bob", "bob@example.com", "(22) 98765-4321", 2, 2));
+        students.add(new Student(3, "Charlie", "charlie@example.com", "(33) 98765-4321", 3, 3));
+
+        
     }
     
 
